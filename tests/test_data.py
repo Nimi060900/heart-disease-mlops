@@ -5,7 +5,7 @@ from src import data
 
 def test_raw_has_expected_columns(raw_df):
     assert list(raw_df.columns) == data.COLUMNS
-    assert len(raw_df) == 303
+    assert len(raw_df) == 999
 
 
 def test_raw_missing_markers_parsed_as_nan(raw_df):
