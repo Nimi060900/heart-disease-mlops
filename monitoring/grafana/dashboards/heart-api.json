@@ -1,0 +1,29 @@
+{
+  "title": "Heart Disease API",
+  "uid": "heart-api",
+  "schemaVersion": 39,
+  "refresh": "5s",
+  "time": {"from": "now-15m", "to": "now"},
+  "panels": [
+    {"id": 1, "type": "timeseries", "title": "Requests per second by endpoint",
+     "gridPos": {"x": 0, "y": 0, "w": 12, "h": 8},
+     "datasource": {"type": "prometheus", "uid": "prom"},
+     "targets": [{"expr": "sum by (endpoint) (rate(api_requests_total[1m]))", "legendFormat": "{{endpoint}}"}]},
+    {"id": 2, "type": "timeseries", "title": "p95 latency (s)",
+     "gridPos": {"x": 12, "y": 0, "w": 12, "h": 8},
+     "datasource": {"type": "prometheus", "uid": "prom"},
+     "targets": [{"expr": "histogram_quantile(0.95, sum by (le, endpoint) (rate(api_request_latency_seconds_bucket[1m])))", "legendFormat": "{{endpoint}}"}]},
+    {"id": 3, "type": "stat", "title": "Total predictions",
+     "gridPos": {"x": 0, "y": 8, "w": 6, "h": 6},
+     "datasource": {"type": "prometheus", "uid": "prom"},
+     "targets": [{"expr": "sum(api_predictions_total)"}]},
+    {"id": 4, "type": "piechart", "title": "Predictions by class (0 = healthy, 1 = disease)",
+     "gridPos": {"x": 6, "y": 8, "w": 9, "h": 6},
+     "datasource": {"type": "prometheus", "uid": "prom"},
+     "targets": [{"expr": "sum by (label) (api_predictions_total)", "legendFormat": "class {{label}}"}]},
+    {"id": 5, "type": "timeseries", "title": "Error responses (4xx/5xx) per second",
+     "gridPos": {"x": 15, "y": 8, "w": 9, "h": 6},
+     "datasource": {"type": "prometheus", "uid": "prom"},
+     "targets": [{"expr": "sum(rate(api_requests_total{status=~\"4..|5..\"}[1m]))", "legendFormat": "errors"}]}
+  ]
+}
