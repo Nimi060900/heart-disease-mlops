@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-test-train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint (flake8)
+        run: flake8 src tests api
+
+      - name: Unit tests
+        run: pytest -v --junitxml=test-results.xml
+
+      - name: Train models
+        run: python -m src.train | tee training.log
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-outputs
+          path: |
+            test-results.xml
+            training.log
+            models/
+            screenshots/model_plots/
