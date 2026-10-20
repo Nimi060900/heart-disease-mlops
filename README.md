@@ -5,6 +5,10 @@ A classifier that predicts the presence of heart disease from 13 patient measure
 
 Repository: https://github.com/Nimi060900/heart-disease-mlops
 
+Demo video (full pipeline walkthrough): https://drive.google.com/file/d/1tRNAtp2mYR-rczdqP4WBwBspnhAxGpmy/view?usp=drive_link
+
+Final report: [report/MLOps_Assignment1_Report.pdf](report/MLOps_Assignment1_Report.pdf)
+
 ## Architecture
 
 ```
