@@ -55,8 +55,10 @@ def evaluate_holdout(pipe, X_test, y_test) -> dict:
 
 
 def save_plots(pipe, X_test, y_test, name: str, out: Path) -> list:
+    # Same filenames in every run so MLflow's compare view lines them up.
+    out = out / name
     out.mkdir(parents=True, exist_ok=True)
-    cm_path, roc_path = out / f"{name}_confusion.png", out / f"{name}_roc.png"
+    cm_path, roc_path = out / "confusion.png", out / "roc.png"
     fig, ax = plt.subplots(figsize=(4, 4))
     ConfusionMatrixDisplay.from_estimator(pipe, X_test, y_test, ax=ax, cmap="Blues")
     ax.set_title(f"{name}: confusion matrix")
